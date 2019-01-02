@@ -1,0 +1,111 @@
+
+<!DOCTYPE html>
+<html lang="en-us">
+
+<head>
+  <meta charset="UTF-8">
+  <title>The Psychic Game</title>
+</head>
+
+<body>
+
+<h1> The Psychic Game </h1>
+
+  <div>
+    <p id="guess-letter">Guess what letter I'm thinking of</p>
+    <p id="wins-text"> Wins:</p>
+    <p id="losses-text"> Losses: </p>
+    <p id="guesses-remaining">Guesses Remaining:</p>
+    <p id="guesses-so-far">Your guesses so far:</p>
+  </div>
+
+</body>
+
+<script type="text/javascript">
+
+ //create variables for wins to keep track of how many games the user has won starts at 0
+var wins = 0;
+
+//create a variable for losses to keep track of how many games the user has lost starting at 0
+var losses = 0;
+
+//create a variable /array for your guesses so far this will display the letter the user has entered
+var  userGuesses= [];
+
+//create a variable for guesses to keep track of how many guesses the user has left of 9
+var guessesRemaining = 9;
+
+//First action is for the computer to randonmly chose a letter and store it. create a variable to store the chosen letter.  Set up the alphabet math.  
+var computerChosen = String.fromCharCode(Math.floor(Math.random()*26)+65);
+
+//stores the users last guess
+var userGuess;
+
+// set up a reset function
+function reset() {
+    userGuesses = [];
+    guessesRemaining = 9;
+    computerChosen = String.fromCharCode(Math.floor(Math.random()*26)+65);
+}
+
+// Create variables that hold references to the places in the HTML where we want to display things.
+
+    var winsP = document.getElementById("wins-text");
+    var lossesP = document.getElementById("losses-text");
+    var guessesRemainingP = document.getElementById("guesses-remaining");
+    var userGuessesP = document.getElementById("guesses-so-far");
+
+// This function is run whenever the user presses a key.
+document.onkeyup = function(event) {
+    userGuess=event.key;
+    if(!/^[a-z]$/i.test(userGuess)) {
+        return
+    }
+
+    //2nd step is for the user to guess the letter up to 9 times. user types in a letter, decrease the guesses remaining, put the guess in the array of guesses so far
+    guessesRemaining = guessesRemaining-1;
+    userGuesses.push(userGuess);    
+
+    //3rd step is for the computer to decide if user guesses the correct letter then increase the wins by 1 and reset the game. when the user it out of guesses the "guesses left variable will be equal to 0.
+
+    if (userGuess.toLowerCase() === computerChosen.toLowerCase()){
+        wins = wins+1
+        reset();
+    }
+    else if (guessesRemaining === 0){
+        losses = losses+1
+        reset();
+    }
+
+// Display the user and computer guesses, and wins/losses/ties.
+        userGuessesP.textContent = "You chose: " + userGuesses.join(" ");
+        winsP.textContent = "Wins: " + wins;
+        lossesP.textContent = "Losses: " + losses;
+        guessesRemainingP.textContent = "Guesses Remaining: "  + guessesRemaining;       
+    
+    
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ 
+
+
+//if user does not guess the letter in 9 keystrokes then increase losses by 1 and reset the game 
+
+//reset the game means the computer picks a new letter and the user guess start counting over again.
+
+</script>
